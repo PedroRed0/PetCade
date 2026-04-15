@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa - PetCadê</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 620px;
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        /* Fundo da página e container do mapa ficam escuros */
+        body {
+            background-color: #0a0a0a;
+        }
+        .dark body {
+            background-color: #0a0a0a;
+        }
+
+        /* Dark mode real para o mapa (melhor que filtro) */
+        .dark .leaflet-container {
+            background-color: #1a1a1a !important;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 dark:bg-zinc-950 text-zinc-200 min-h-screen">
+
+    <!-- Header (igual ao que você já tem) -->
+    <header class="bg-emerald-600 dark:bg-emerald-950 text-white py-6 shadow-md">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">🐾</span>
+                <h1 class="text-3xl font-bold">PetCadê</h1>
+            </div>
+            <nav class="flex gap-8 text-lg font-medium">
+                <a href="index.html" class="hover:underline">Início</a>
+                <a href="cadastrar.html" class="hover:underline">Cadastrar Pet</a>
+                <a href="lista.html" class="hover:underline">Animais Perdidos</a>
+                <a href="mapa.html" class="hover:underline font-bold">Mapa</a>
+            </nav>
+            <button id="theme-toggle" class="ml-6 p-3 rounded-2xl bg-white/20 hover:bg-white/30 dark:bg-zinc-700 transition-all">
+                <span id="theme-icon" class="text-2xl">☀️</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        <h2 class="text-4xl font-bold mb-4 text-white">Mapa de Animais Desaparecidos</h2>
+        <p class="mb-8 text-zinc-400">Visualize os pets perdidos próximos a você.</p>
+        
+        <div id="map" class="dark"></div>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        let mapInstance;
+
+        function initMap() {
+            mapInstance = L.map('map').setView([-23.5505, -46.6333], 12);
+
+            // Tile layer escura nativa (Dark Matter do Carto) - muito melhor que filtro!
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(mapInstance);
+
+            // Carrega pets
+            let pets = listarPets ? listarPets() : [];
+            
+            if (pets.length === 0) {
+                pets = [{
+                    nome: "Luna",
+                    especie: "Cachorro",
+                    foto: "https://picsum.photos/id/1015/400/300",
+                    ultimaLocalizacao: { lat: -23.5505, lng: -46.6333 },
+                    recompensa: 300,
+                    descricao: "Vira-lata branca com manchas pretas"
+                }];
+            }
+
+            pets.forEach(pet => {
+                if (pet.ultimaLocalizacao?.lat && pet.ultimaLocalizacao?.lng) {
+                    const marker = L.marker([pet.ultimaLocalizacao.lat, pet.ultimaLocalizacao.lng]).addTo(mapInstance);
+                    
+                    marker.bindPopup(`
+                        <div style="min-width:220px; text-align:center; color:#111;">
+                            <img src="${pet.foto}" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;">
+                            <strong style="font-size:1.15em;">${pet.nome}</strong><br>
+                            ${pet.especie} • ${pet.raca || ''}<br>
+                            ${pet.recompensa > 0 ? `<span style="color:#fbbf24; font-weight:600;">Recompensa: R$ ${pet.recompensa}</span><br>` : ''}
+                            <small>${pet.descricao.substring(0, 100)}...</small>
+                        </div>
+                    `);
+                }
+            });
+
+            // Força atualização do mapa
+            setTimeout(() => {
+                mapInstance.invalidateSize();
+            }, 300);
+        }
+
+        window.addEventListener('load', initMap);
+    </script>
+</body>
+</html>
