@@ -1,0 +1,35 @@
+/* Modo Escuro - Pet Resgate */
+.dark {
+    background-color: #0a0a0a;
+    color: #e5e5e5;
+}
+
+.dark header {
+    background-color: #065f46;           /* Verde mais escuro */
+}
+
+.dark .bg-white {
+    background-color: #1f2937 !important;   /* Cinza escuro */
+    color: #e5e5e5;
+}
+
+.dark .bg-zinc-50 {
+    background-color: #111827 !important;
+}
+
+.dark .shadow {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.4) !important;
+}
+
+.dark #map {
+    filter: brightness(0.9) contrast(1.1);   /* Mapa fica bonito no escuro */
+}
+
+/* Ajustes em textos e cards */
+.dark .text-zinc-600 {
+    color: #9ca3af !important;
+}
+
+.dark .text-zinc-800 {
+    color: #e5e5e5 !important;
+}
