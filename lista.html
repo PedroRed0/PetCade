@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',   // ← Essencial
+            content: [],
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#ecfdf5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857'
+                        },
+                        accent: {
+                            500: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-50">
+   <header class="bg-emerald-600 dark:bg-emerald-800 text-white py-6 shadow-md transition-colors">
+    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="text-4xl">🐾</span>
+            <h1 class="text-3xl font-bold">PetCadê</h1>
+        </div>
+        <nav class="flex gap-8 text-lg font-medium">
+            <a href="index.html" class="hover:underline transition">Início</a>
+            <a href="cadastrar.html" class="hover:underline transition">Cadastrar Pet</a>
+            <a href="lista.html" class="hover:underline transition">Animais Perdidos</a>
+            <a href="mapa.html" class="hover:underline transition">Mapa</a>
+        </nav>
+        <button id="theme-toggle"
+                class="ml-4 p-3 rounded-2xl bg-white/20 hover:bg-white/30 dark:bg-zinc-700 dark:hover:bg-zinc-600 transition-all duration-300">
+            <span id="theme-icon" class="text-2xl">☀️</span>
+        </button>
+    </div>
+</header>
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        <h2 class="text-4xl font-bold mb-8">Animais Desaparecidos</h2>
+        
+        <div id="listaPets" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        </div>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script>
+        function renderizarLista() {
+            const container = document.getElementById('listaPets');
+            const pets = listarPets();
+            container.innerHTML = '';
+
+            pets.forEach(pet => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl overflow-hidden shadow hover:shadow-xl transition";
+                card.innerHTML = `
+                    <img src="${pet.foto}" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold">${pet.nome} • ${pet.especie}</h3>
+                        <p class="text-zinc-600 mt-2 line-clamp-3">${pet.descricao}</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            ${pet.recompensa > 0 ? `<span class="bg-amber-100 text-amber-700 px-4 py-1 rounded-full text-sm font-medium">Recompensa: R$ ${pet.recompensa}</span>` : ''}
+                            <a href="mapa.html" class="text-emerald-600 font-medium">Ver no mapa →</a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            if (pets.length === 0) {
+                container.innerHTML = `<p class="col-span-3 text-center text-xl py-20">Nenhum pet cadastrado ainda.</p>`;
+            }
+        }
+
+        window.onload = renderizarLista;
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>
