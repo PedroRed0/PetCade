@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',   // ← Essencial
+            content: [],
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#ecfdf5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857'
+                        },
+                        accent: {
+                            500: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-50 text-zinc-800">
+    <header class="bg-emerald-600 dark:bg-emerald-800 text-white py-6 shadow-md transition-colors">
+    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+            <span class="text-4xl">🐾</span>
+            <h1 class="text-3xl font-bold">PetCadê</h1>
+        </div>
+
+        <!-- Menu de navegação -->
+        <nav class="flex gap-8 text-lg font-medium">
+            <a href="index.html" class="hover:underline transition">Início</a>
+            <a href="cadastrar.html" class="hover:underline transition">Cadastrar Pet</a>
+            <a href="lista.html" class="hover:underline transition">Animais Perdidos</a>
+            <a href="mapa.html" class="hover:underline transition">Mapa</a>
+        </nav>
+
+        <!-- Botão Toggle Dark Mode -->
+        <button id="theme-toggle"
+                class="ml-4 p-3 rounded-2xl bg-white/20 hover:bg-white/30 dark:bg-zinc-700 dark:hover:bg-zinc-600 transition-all duration-300">
+            <span id="theme-icon" class="text-2xl">☀️</span>
+        </button>
+    </div>
+</header>
+
+    <main class="tail-container px-6 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-5xl font-bold mb-4">Reencontre seu melhor amigo</h2>
+            <p class="text-xl text-zinc-600 max-w-2xl mx-auto">Plataforma gratuita que centraliza anúncios de animais desaparecidos com mapas e filtros por região.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <a href="cadastrar.html" class="bg-white rounded-3xl p-8 card-hover shadow">
+                <div class="text-6xl mb-6">📸</div>
+                <h3 class="text-2xl font-semibold mb-3">Cadastrar Pet Perdido</h3>
+                <p class="text-zinc-600">Adicione foto, descrição, última localização e recompensa (opcional).</p>
+            </a>
+            <a href="lista.html" class="bg-white rounded-3xl p-8 card-hover shadow">
+                <div class="text-6xl mb-6">🔍</div>
+                <h3 class="text-2xl font-semibold mb-3">Ver Todos os Casos</h3>
+                <p class="text-zinc-600">Filtros por espécie, cidade, raio e recompensa.</p>
+            </a>
+            <a href="mapa.html" class="bg-white rounded-3xl p-8 card-hover shadow">
+                <div class="text-6xl mb-6">🗺️</div>
+                <h3 class="text-2xl font-semibold mb-3">Mapa Interativo</h3>
+                <p class="text-zinc-600">Visualize onde os pets foram vistos por último perto de você.</p>
+            </a>
+        </div>
+
+        <div class="mt-16 text-center">
+            <p class="text-emerald-700 font-medium">Buscamos ajudar diversos pets a voltar para casa</p>
+        </div>
+    </main>
+
+    <footer class="bg-zinc-900 text-white py-10 text-center">
+        <p>Feito com ❤️ para os animais e suas famílias • São Paulo, 2026</p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
